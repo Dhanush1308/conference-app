@@ -1,20 +1,31 @@
-yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-name: conference-app
+  name: conference-app
 spec:
-replicas: 2
-selector:
-matchLabels:
-app: conference
-template:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: conference-app
+  template:
+    metadata:
+      labels:
+        app: conference-app
+    spec:
+      containers:
+      - name: conference-app
+        image: YOUR_DOCKERHUB/conference-app
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
 metadata:
-labels:
-app: conference
+  name: conference-service
 spec:
-containers:
-- name: conference
-image: yourdockerhub/conference-app
-ports:
-- containerPort: 80
+  type: NodePort
+  selector:
+    app: conference-app
+  ports:
+  - port: 80
+    nodePort: 30001
