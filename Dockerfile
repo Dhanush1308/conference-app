@@ -1,3 +1,3 @@
 FROM nginx:alpine
-COPY html
+COPY user/nginx/html
 EXPOSE 80
